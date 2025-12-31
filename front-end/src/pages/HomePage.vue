@@ -1,5 +1,9 @@
 <script setup>
+import { ref } from "vue";
 import RoundedButton from "../components/RoundedButton.vue";
+import TrainingArea from "../components/TrainingArea.vue";
+
+const trainingStarted = ref(false);
 </script>
 
 <template>
@@ -10,13 +14,27 @@ import RoundedButton from "../components/RoundedButton.vue";
         <div class="main-wrapper">
             <p>On this page you can train your relative pitch hearing.</p>
             <p>You will be played two notes, a <b>base</b> note from which you will have to guess the <b>second</b> note.</p>
-            <RoundedButton inner-text="Start"/>
+            <div class="main-button-wrapper">
+                <RoundedButton 
+                    inner-text="Train"
+                    :disabled="trainingStarted"
+                    @click="trainingStarted = true"
+                />
+                <RoundedButton
+                    inner-text="Learn"
+                    disabled="true"
+                />
+            </div>
+        </div>
+        <div v-if="trainingStarted" class="training-wrapper">
+            <span>Training is currently going on</span>
+            <TrainingArea />
         </div>
     </div>
 </template>
 
 <style scoped>
-.homepage-content {
+.homepage-content, .training-wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -35,5 +53,11 @@ import RoundedButton from "../components/RoundedButton.vue";
     max-width: 800px;
     padding: 0.5rem;
     text-align: center;
+}
+.main-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: center;
 }
 </style>

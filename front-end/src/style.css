@@ -137,6 +137,6 @@
 /* other components */
 body {
     text-align: center;
-    background-color: #EDE9FE;
+    background: linear-gradient(to right, #c8bcff, #eda9fe);
     font-family: "Montserrat";
 }
