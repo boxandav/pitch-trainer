@@ -11,14 +11,29 @@ const props = withDefaults(defineProps<{
 const correctGuesses = ref(0);
 const totalGuesses = ref(0);
 
-const allNotes = ref(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"]);
+const NOTES_MAPPING: { [key: string]: string } = {
+    "C": "note_c.wav",
+    "C#": "note_cs.wav",
+    "D": "note_d.wav",
+    "D#": "note_ds.wav",
+    "E": "note_e.wav",
+    "F": "note_f.wav",
+    "F#": "note_fs.wav",
+    "G": "note_g.wav",
+    "G#": "note_gs.wav",
+    "A": "note_a.wav",
+    "A#": "note_as.wav",
+    "H": "note_h.wav"
+};
+const NOTE_NAMES = Object.keys(NOTES_MAPPING);
+
 const baseNote: Ref<string | undefined | null> = ref(null);
 const currentNote: Ref<string | undefined | null> = ref(null);
 const resultMessage: Ref<string | undefined | null> = ref(null);
 const isCorrect: Ref<boolean | null> = ref(null);
 
 function getRandomNote(): string | undefined {
-    return allNotes.value[Math.floor(Math.random() * allNotes.value.length)];
+    return NOTE_NAMES[Math.floor(Math.random() * NOTE_NAMES.length)];
 }
 
 function checkGuessedNote(guess: string) {
@@ -35,6 +50,22 @@ function checkGuessedNote(guess: string) {
     currentNote.value = getRandomNote();
 }
 
+function playNote(note: string | null | undefined) {
+    if (!note) return;
+    const filename = NOTES_MAPPING[note];
+    if (!filename) return;
+    try {
+        const audio = new Audio(new URL(`../assets/sounds/${filename}`, import.meta.url).href);
+        void audio.play();
+    } catch (e) {
+        try {
+            const audio = new Audio(`../assets/sounds/${filename}`);
+            void audio.play();
+        } catch (err) {
+        }
+    }
+}
+
 onMounted(function() {
     baseNote.value = getRandomNote();
     currentNote.value = getRandomNote();
@@ -45,15 +76,25 @@ onMounted(function() {
     <div class="training-area">
         <span>Score: {{ correctGuesses }}/{{ totalGuesses }}</span>
         <span>Base note: <b>{{ baseNote }}</b></span>
+        <div class="note-buttons-wrapper">
+            <RoundedButton 
+                inner-text="Play base note" 
+                @click="playNote(baseNote)"
+            />
+            <RoundedButton
+                inner-text="Play target note"
+                @click="playNote(currentNote)"
+            />
+        </div>
         <span
             class="result-message"
             :class="{ 'correct': isCorrect, 'incorrect': !isCorrect }"
             v-if="resultMessage" 
             v-html="resultMessage"
         />
-        <div class="training-note-buttons">
+        <div class="note-buttons-wrapper">
             <RoundedButton
-                v-for="note in allNotes"
+                v-for="note in NOTE_NAMES"
                 :inner-text="note"
                 :note-color="note.includes('#') ? 'black' : 'white'"
                 @click="checkGuessedNote(note)"
@@ -68,10 +109,11 @@ onMounted(function() {
     flex-direction: column;
     gap: 0.5rem;
 }
-.training-note-buttons {
+.note-buttons-wrapper {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    justify-content: center;
 }
 .result-message.correct {
     color: green;
