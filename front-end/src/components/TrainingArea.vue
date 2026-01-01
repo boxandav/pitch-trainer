@@ -32,6 +32,8 @@ const currentNote: Ref<string | undefined | null> = ref(null);
 const resultMessage: Ref<string | undefined | null> = ref(null);
 const isCorrect: Ref<boolean | null> = ref(null);
 
+const baseNoteChanging = ref(false);
+
 function getRandomNote(): string | undefined {
     return NOTE_NAMES[Math.floor(Math.random() * NOTE_NAMES.length)];
 }
@@ -48,6 +50,10 @@ function checkGuessedNote(guess: string) {
 
     totalGuesses.value++;
     currentNote.value = getRandomNote();
+
+    if (baseNoteChanging.value) {
+        baseNote.value = getRandomNote();
+    }
 }
 
 function playNote(note: string | null | undefined) {
@@ -100,6 +106,12 @@ onMounted(function() {
                 @click="checkGuessedNote(note)"
             />
         </div>
+        <div class="settings-wrapper">
+            <div class="setting-line">
+                <input type="checkbox" v-model="baseNoteChanging">
+                <label>Change base note after each guess</label>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -109,16 +121,33 @@ onMounted(function() {
     flex-direction: column;
     gap: 0.5rem;
 }
+
 .note-buttons-wrapper {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     justify-content: center;
 }
+
 .result-message.correct {
     color: green;
 }
 .result-message.incorrect {
     color: red;
+}
+
+.settings-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+.settings-wrapper label {
+    font-size: 0.9em;
+}
+
+.setting-line {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 }
 </style>
