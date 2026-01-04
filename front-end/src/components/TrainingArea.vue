@@ -127,6 +127,12 @@ onMounted(function() {
     flex-direction: row;
     gap: 0.5rem;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.note-buttons-wrapper rounded-button {
+    display: inline-block;
+    margin: 0.25rem;
 }
 
 .result-message.correct {
@@ -149,5 +155,24 @@ onMounted(function() {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .training-area {
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+    .note-buttons-wrapper {
+        gap: 0.35rem;
+    }
+    .note-buttons-wrapper rounded-button {
+        margin: 0.15rem;
+    }
+    .settings-wrapper {
+        margin-top: 1rem;
+    }
+    .result-message.correct, .result-message.incorrect {
+        font-size: 0.95rem;
+    }
 }
 </style>

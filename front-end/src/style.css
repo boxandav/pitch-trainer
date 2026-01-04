@@ -135,8 +135,37 @@
 }
 
 /* other components */
+/* Ensure the page background covers the full viewport and during overscroll
+   Apply background to both html and body and provide a fixed fallback so
+   mobile overscroll doesn't reveal the default white background. */
+html, body {
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #c8bcff, #eda9fe);
+  background-repeat: no-repeat;
+  /* Use fixed where supported to keep the gradient stationary; mobile browsers
+     may ignore it but the pseudo-element fallback below will cover that. */
+  background-attachment: fixed;
+  background-color: #c8bcff; /* fallback color matching gradient start */
+}
+
 body {
-    text-align: center;
-    background: linear-gradient(to right, #c8bcff, #eda9fe);
-    font-family: "Montserrat";
+  text-align: center;
+  font-family: "Montserrat";
+  max-width: 100%;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fallback: fixed full-viewport pseudo-element so iOS overscroll shows gradient
+   instead of white. It is behind page content due to z-index. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to right, #c8bcff, #eda9fe);
+  pointer-events: none;
 }

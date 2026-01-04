@@ -59,5 +59,20 @@ const trainingStarted = ref(false);
     flex-direction: row;
     gap: 0.5rem;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.main-button-wrapper rounded-button {
+    display: inline-block;
+    margin: 0.25rem;
+}
+
+@media (max-width: 600px) {
+    .main-wrapper {
+        padding: 0.5rem 0.75rem;
+    }
+    .main-button-wrapper {
+        gap: 0.35rem;
+    }
 }
 </style>
