@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import TrainModeModal from "../modals/TrainModeModal.vue";
-import RoundedButton from "../components/RoundedButton.vue";
+import RoundedButton from "../components/buttons/RoundedButton.vue";
 import TrainingArea from "../components/TrainingArea.vue";
 
 const trainingStarted = ref(false);

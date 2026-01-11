@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, type Ref, onMounted } from "vue";
-import RoundedButton from "./RoundedButton.vue";
+import RoundedButton from "./buttons/RoundedButton.vue";
 
 const props = withDefaults(defineProps<{
     baseNote: string | null;
