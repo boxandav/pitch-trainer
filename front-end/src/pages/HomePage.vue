@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from "vue";
+import TrainModeModal from "../modals/TrainModeModal.vue";
 import RoundedButton from "../components/RoundedButton.vue";
 import TrainingArea from "../components/TrainingArea.vue";
 
 const trainingStarted = ref(false);
+const showTrainingModes = ref(true);
 </script>
 
 <template>
@@ -30,6 +32,7 @@ const trainingStarted = ref(false);
             <span>Training is currently going on</span>
             <TrainingArea />
         </div>
+        <TrainModeModal v-if="showTrainingModes" />
     </div>
 </template>
 
