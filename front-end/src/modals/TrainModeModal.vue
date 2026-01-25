@@ -4,12 +4,17 @@ import BaseModal from "./BaseModal.vue";
 import ButtonBar from "../components/buttons/ButtonBar.vue";
 import RoundedButton from "../components/buttons/RoundedButton.vue";
 
+const emit = defineEmits<{
+    (e: "start", mode: string, notes: string[]): void
+}>();
+
 const modeOptions = [
     { label: "Single Notes", value: "single-notes" },
     { label: "Melodies", value: "melodies" }
 ];
 
 const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"];
+const selectedNotes = ref([]);
 
 const selectedMode = ref("single-notes");
 </script>
@@ -30,12 +35,15 @@ const selectedMode = ref("single-notes");
             <div v-if="selectedMode == 'melodies'" class="mode-section">
                 <div class="settings-wrapper">
                     <div v-for="note in notes" class="setting-line">
-                        <input type="checkbox">
+                        <input type="checkbox" :value="note" v-model="selectedNotes">
                         <label>{{ note }}</label>
                     </div>
                 </div>
             </div>
-            <RoundedButton inner-text="Start" />
+            <RoundedButton 
+                inner-text="Start" 
+                @click="emit('start', selectedMode, selectedNotes)"
+            />
         </div>
     </BaseModal>
 </template>

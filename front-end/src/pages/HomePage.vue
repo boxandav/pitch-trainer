@@ -4,8 +4,15 @@ import TrainModeModal from "../modals/TrainModeModal.vue";
 import RoundedButton from "../components/buttons/RoundedButton.vue";
 import TrainingArea from "../components/TrainingArea.vue";
 
-const trainingStarted = ref(false);
-const showTrainingModes = ref(true);
+const showTrainingModes = ref(false);
+const trainingMode = ref("");
+const trainingNotes = ref([]);
+
+function startTraining(mode, notes) {
+    showTrainingModes.value = false;
+    trainingMode.value = mode;
+    trainingNotes.value = notes;
+}
 </script>
 
 <template>
@@ -19,8 +26,7 @@ const showTrainingModes = ref(true);
             <div class="main-button-wrapper">
                 <RoundedButton 
                     inner-text="Train"
-                    :disabled="trainingStarted"
-                    @click="trainingStarted = true"
+                    @click="showTrainingModes = true"
                 />
                 <RoundedButton
                     inner-text="Learn"
@@ -28,11 +34,14 @@ const showTrainingModes = ref(true);
                 />
             </div>
         </div>
-        <div v-if="trainingStarted" class="training-wrapper">
+        <div v-if="trainingMode" class="training-wrapper">
             <span>Training is currently going on</span>
-            <TrainingArea />
+            <TrainingArea v-if="trainingMode == 'single-notes'" />
+            <!-- <MelodyTrainingArea /> -->
         </div>
-        <TrainModeModal v-if="showTrainingModes" />
+        <TrainModeModal 
+            v-if="showTrainingModes" @start="startTraining"
+        />
     </div>
 </template>
 

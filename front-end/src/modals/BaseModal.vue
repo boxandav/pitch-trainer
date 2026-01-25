@@ -9,7 +9,7 @@ function close() {
 <template>
   <div class="modal-overlay" @click="close">
     <div class="modal-container" @click.stop>
-      <button class="modal-close" aria-label="Close" @click="close">×</button>
+      <button class="modal-close" aria-label="Close" @click="close">&times;</button>
       <div class="modal-body">
         <slot />
       </div>
@@ -44,9 +44,13 @@ function close() {
   right: 0.5rem;
   background: transparent;
   border: none;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+.modal-close:hover {
+    color: gray;
 }
 
 .modal-body {
