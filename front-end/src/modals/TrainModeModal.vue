@@ -5,7 +5,7 @@ import ButtonBar from "../components/buttons/ButtonBar.vue";
 import RoundedButton from "../components/buttons/RoundedButton.vue";
 
 const emit = defineEmits<{
-    (e: "start", mode: string, notes: string[]): void
+    (e: "start", mode: string, notes: string[], length: number): void
 }>();
 
 const modeOptions = [
@@ -14,7 +14,9 @@ const modeOptions = [
 ];
 
 const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"];
+
 const selectedNotes = ref([]);
+const melodyLength = ref(0);
 
 const selectedMode = ref("single-notes");
 </script>
@@ -34,15 +36,21 @@ const selectedMode = ref("single-notes");
             </div>
             <div v-if="selectedMode == 'melodies'" class="mode-section">
                 <div class="settings-wrapper">
-                    <div v-for="note in notes" class="setting-line">
-                        <input type="checkbox" :value="note" v-model="selectedNotes">
-                        <label>{{ note }}</label>
+                    <div class="setting-line">
+                        <div v-for="note in notes">
+                            <input type="checkbox" :value="note" v-model="selectedNotes" />
+                            <label>{{ note }}</label>
+                        </div>
+                    </div>
+                    <div class="setting-line">
+                        <label>Length of melody</label>
+                        <input type="number" min="2" max="8" v-model="melodyLength" />
                     </div>
                 </div>
             </div>
             <RoundedButton 
                 inner-text="Start" 
-                @click="emit('start', selectedMode, selectedNotes)"
+                @click="emit('start', selectedMode, selectedNotes, melodyLength)"
             />
         </div>
     </BaseModal>
@@ -61,9 +69,11 @@ const selectedMode = ref("single-notes");
 
 .settings-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-top: 1.5rem;
-    gap: 0.25rem;
+    gap: 0.5rem;
+    width: 100%;
 }
 .settings-wrapper label {
     font-size: 0.9em;
@@ -73,5 +83,6 @@ const selectedMode = ref("single-notes");
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    justify-content: center;
 }
 </style>

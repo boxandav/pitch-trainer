@@ -3,15 +3,18 @@ import { ref } from "vue";
 import TrainModeModal from "../modals/TrainModeModal.vue";
 import RoundedButton from "../components/buttons/RoundedButton.vue";
 import TrainingArea from "../components/TrainingArea.vue";
+import MelodyTrainingArea from "../components/MelodyTrainingArea.vue";
 
 const showTrainingModes = ref(false);
 const trainingMode = ref("");
 const trainingNotes = ref([]);
+const melodyLength = ref(null);
 
-function startTraining(mode, notes) {
+function startTraining(mode, notes, length) {
     showTrainingModes.value = false;
     trainingMode.value = mode;
     trainingNotes.value = notes;
+    melodyLength.value = length;
 }
 </script>
 
@@ -37,7 +40,11 @@ function startTraining(mode, notes) {
         <div v-if="trainingMode" class="training-wrapper">
             <span>Training is currently going on</span>
             <TrainingArea v-if="trainingMode == 'single-notes'" />
-            <!-- <MelodyTrainingArea /> -->
+            <MelodyTrainingArea 
+                v-if="trainingMode == 'melodies'"
+                :training-notes="trainingNotes"
+                :melody-length="melodyLength"
+            />
         </div>
         <TrainModeModal 
             v-if="showTrainingModes" @start="startTraining"

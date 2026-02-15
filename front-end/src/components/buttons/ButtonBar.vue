@@ -41,6 +41,8 @@ onMounted(function() {
 .button-bar {
     width: 100%;
     display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 }
 
 .bar-button {
